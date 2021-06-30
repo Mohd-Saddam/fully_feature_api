@@ -56,7 +56,7 @@ class RegisterView(generics.GenericAPIView):
         # print(subject, message, email_from, recipient_list)
         # send_mail( subject, message, email_from, recipient_list )
 
-        return Response(user_data,status=status.HTTP_200_OK)
+        return Response(user_data,status=status.HTTP_201_CREATED)
 
 class VerifyEmail(views.APIView):
     serializer_class  = EmailVericationSerializer
