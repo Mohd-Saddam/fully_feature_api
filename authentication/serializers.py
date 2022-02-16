@@ -9,20 +9,20 @@ from django.urls import reverse
 from .utils import Util
 from django.core.mail import send_mail
 
-from .models import User,Author,Book,Person
+from .models import User#,Author,Book,Person
 from django.db.models import Count
 from django.db.models import F
 from django.db.models import Prefetch
 
 # book = Book.objects.values('author').annotate(count = Count('author')).order_by('count')
 # print(book.query)
-books = Book.objects.prefetch_related('author').filter(name__iexact=u"JAVA")
-print(books.query)
+# books = Book.objects.prefetch_related('author').filter(name__iexact=u"JAVA")
+# print(books.query)
 
 
 
 class RegsiterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=68,min_length=8,write_only=True)
+    password = serializers.CharField(max_length=68,min_length=4,write_only=True)
     
     class Meta:
         model = User
@@ -49,9 +49,18 @@ class EmailVericationSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255,min_length=16)
-    password = serializers.CharField(max_length=68,min_length=8,write_only=True)
+    password = serializers.CharField(max_length=68,min_length=4,write_only=True)
     username = serializers.EmailField(max_length=255,read_only=True)
-    tokens = serializers.CharField(max_length=255,read_only=True)
+    tokens = serializers.SerializerMethodField()
+
+    def get_tokens(self,obj):
+        user = User.objects.get(email = obj['email'])
+        print(user.email)
+        # user.tokens()['access'] = user.is_active
+        return {
+            "access":user.tokens()['access'],
+            "refresh":user.tokens()['refresh']
+        }
 
     class Meta:
         model = User

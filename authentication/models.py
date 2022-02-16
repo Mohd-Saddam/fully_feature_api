@@ -27,15 +27,18 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save()
         return user
+AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
+                  'twitter': 'twitter', 'email': 'email'}
 
 class User(AbstractBaseUser,PermissionsMixin):
-    username = models.CharField(max_length=255,unique=True,db_index=True)
-    email = models.EmailField(max_length=255,unique=True,db_index=True)
+    username = models.CharField(max_length=255,unique=True,db_index=True,blank=True)
+    email = models.EmailField(max_length=255,unique=True,db_index=True,blank=True)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+    auth_providers = models.CharField(max_length=255,blank=True,null=True,default=AUTH_PROVIDERS.get(email))
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -53,11 +56,11 @@ class User(AbstractBaseUser,PermissionsMixin):
         }
 
 
-class Author(models.Model):
-    name = models.CharField(max_length=50)
-class Person(models.Model):
-    name = models.CharField(max_length=50)
-class Book(models.Model):
-    name= models.CharField(max_length=50)
-    author = models.ForeignKey(Author,on_delete=models.CASCADE)
-    publishers = models.ManyToManyField(Person,related_name='publishers')
+# class Author(models.Model):
+#     name = models.CharField(max_length=50)
+# class Person(models.Model):
+#     name = models.CharField(max_length=50)
+# class Book(models.Model):
+#     name= models.CharField(max_length=50)
+#     author = models.ForeignKey(Author,on_delete=models.CASCADE)
+#     publishers = models.ManyToManyField(Person,related_name='publishers')

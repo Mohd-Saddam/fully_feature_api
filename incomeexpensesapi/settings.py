@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'drf_yasg',
     'rest_framework',
@@ -47,6 +48,9 @@ INSTALLED_APPS = [
     'expenses',
     'income',
     'userstats',
+    'social_auth',
+
+    'drf_api_logger',
 ]
 
 SWAGGER_SETTINGS={
@@ -79,6 +83,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+
+    'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware', # Add here
+
 ]
 
 ROOT_URLCONF = 'incomeexpensesapi.urls'
@@ -119,17 +126,28 @@ REST_FRAMEWORK = {
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'auth_user',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#         'OPTIONS': {
+#         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+#         }
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'auth_user',
-        'USER': 'root',
-        'PASSWORD': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mydb',
+        'USER': 'test_user',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-        }
+        'PORT': '5432'
     }
 }
 
@@ -143,7 +161,7 @@ SIMPLE_JWT = {
 }
 
 
-# Password validation
+
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -165,8 +183,18 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'saddamfreelance93@gmail.com'
-EMAIL_HOST_PASSWORD = 'FareehA@102138?19'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+
+SECRET_KEY='sajdiasj903e0912nsad'
+SOCIAL_SECRET='create random string like=nmdskajsdkj382u891290dsas@()'
+GOOGLE_CLIENT_ID=''
+GOOGLE_CLIENT_SECRET=''
+# TWITTER_API_KEY='
+# TWITTER_CONSUMER_SECRET='
+# FRONTEND_URL=''
+# APP_SCHEME='' 
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -186,3 +214,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+DRF_API_LOGGER_DATABASE = True  # Default to False
+
+

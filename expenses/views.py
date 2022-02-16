@@ -16,6 +16,7 @@ class ExpenseListAPIView(ListCreateAPIView):
         return serializer.save(owner=self.request.user)
     
     def get_queryset(self):
+        
         return self.queryset.filter(owner=self.request.user)
 
 class ExpenseDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -26,5 +27,8 @@ class ExpenseDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 
     def get_queryset(self):
+        print("called")
+        user = self.request.user.is_staff
+        print("ui====================",user)
         return self.queryset.filter(owner=self.request.user)
     
