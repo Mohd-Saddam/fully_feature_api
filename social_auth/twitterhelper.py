@@ -16,7 +16,7 @@ class TwitterAuthTokenVerification:
         user profile info
         """
         consumer_api_key = os.environ.get('TWITTER_API_KEY')
-        consumer_api_secret_key = os.environ.get('TWITTER_CONSUMER_SECRET')
+        consumer_api_secret_key = os.environ.get('TWITTER_CONSUMER_SECRET') #API Key Secret
         try:
             api = twitter.Api(
                 consumer_key=consumer_api_key,

@@ -8,7 +8,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from .utils import Util
 from django.core.mail import send_mail
-
+from rest_framework_simplejwt.tokens import RefreshToken,TokenError
 from .models import User#,Author,Book,Person
 from django.db.models import Count
 from django.db.models import F
@@ -141,3 +141,21 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
     pass
 
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    error_messages  = {
+        'bad_token': ('Token is expired or invalid')
+    }
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self,**kwargs):
+        try:
+            obj = RefreshToken(self.token).blacklist()
+            print("obj------------",obj)
+        except TokenError:
+            print("error=--------------------",TokenError)
+            return  {'bad_token': "Token is expired or invalid"}

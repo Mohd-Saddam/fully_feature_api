@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 SWAGGER_SETTINGS={
     'SECURITY_DEFINITIONS':{
-        'Bearer':{
+        'token':{
             'type':'apiKey',
             'name':'Authorization',
             'in':'header'

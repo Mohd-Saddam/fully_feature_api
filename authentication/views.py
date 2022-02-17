@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from rest_framework import generics,status,views
+from rest_framework import generics,status,views,permissions
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken,TokenError,OutstandingToken
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.core.mail import send_mail
@@ -9,11 +9,12 @@ from django.conf import settings
 import jwt
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from social_auth import serializers
 
 
 
 
-from .serializers import (RegsiterSerializer,EmailVericationSerializer,LoginSerializer,ResetPasswordEmailSerializer,SetNewPasswordSerializer)
+from .serializers import (RegsiterSerializer,EmailVericationSerializer,LoginSerializer,ResetPasswordEmailSerializer,SetNewPasswordSerializer,LogoutSerializer)
 from .models import User
 
 from .utils import Util
@@ -137,3 +138,26 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         return Response({'success':True,'message':'Password reset success'},status=status.HTTP_200_OK)
+
+
+class LogoutAPIView(generics.GenericAPIView):
+    # serializer_class = LogoutSerializer
+
+    permission_classes = (permissions.IsAuthenticated,)
+    def post(self,request):
+        # serializer = self.serializer_class(data=request.data)
+        # print("----=======================",serializer)
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save()
+        
+        # print(serializer)
+        print(request.data['refresh'])
+        try:
+            RefreshToken(request.data['refresh']).blacklist()
+            return Response({'message': "Token blacklisted"})
+        except TokenError:
+            return Response({'message': "Token is expired or invalid"})
+        
+
+queryset = OutstandingToken.objects.all().delete()
+print("---------",queryset)
