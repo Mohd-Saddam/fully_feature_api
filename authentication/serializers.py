@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from rest_framework import serializers
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
@@ -89,6 +90,7 @@ class LoginSerializer(serializers.ModelSerializer):
 class ResetPasswordEmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
+    redirect_url = serializers.CharField(max_length=500,required=False)
     class Meta:
         model = User
         fields = ['email']

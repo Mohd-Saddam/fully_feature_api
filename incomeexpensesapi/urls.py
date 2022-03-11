@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-
+from django.conf.urls import handler404
 
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -47,6 +49,9 @@ urlpatterns = [
     path('api/api.json/', schema_view.with_ui(cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
-print( [i for i in range(0,5)])
-a = [1 if i%2==0 else 0 for i in range(0,5)] 
-print(a)
+# handler404 = error_page
+# # handler404='utils.views.error_404'
+# handler500='utils.views.error_500'
+# print( [i for i in range(0,5)])
+# a = [1 if i%2==0 else 0 for i in range(0,5)] 
+# print(a)

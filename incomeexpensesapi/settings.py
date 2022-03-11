@@ -15,14 +15,15 @@ import os
 from datetime import timedelta, time
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ceye!=%-64i5s1*6lbdfp$8j6_vi2l^9uut*6@&!e=&i+w5=ds'
+SECRET_KEY = 'django-insecure-_w_1zo)mcg((=iko!2-1vqjf)dme9#la0rm=q2x5oe@c91%&!4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -83,7 +84,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-
     'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware', # Add here
 
 ]
@@ -106,12 +106,12 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'incomeexpensesapi.wsgi.application'
-
+WSGI_APPLICATION = 'incomeexpensesapi.wsgi.application',
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'NON_FIELD_ERRORS_KEY':'error',
+    # 'EXCEPTION_HANDLER':'utils.exceptionhandler.ExceptionMiddleware',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
@@ -183,17 +183,24 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
+EMAIL_HOST_USER = 'saddamfreelance93@gmail.com'
+EMAIL_HOST_PASSWORD = 'FareehA@102138?19'
+
+
+SECRET_KEY='sajdiasj903e0912nsad'
+SOCIAL_SECRET='sdjkas9219012jasj'
+GOOGLE_CLIENT_ID='617246850621-95f9qhmehd380g2df86pjhrqc84n8nij.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET='jNHMe2ToRj8di4nrpXB_OSDk'
 # EMAIL_HOST_USER = ''
 # EMAIL_HOST_PASSWORD = ''
 
 # SECRET_KEY='sajdiasj903e0912nsad'
 # SOCIAL_SECRET='create random string like=nmdskajsdkj382u891290dsas@()'
-# GOOGLE_CLIENT_ID=''
-# GOOGLE_CLIENT_SECRET=''
 # TWITTER_API_KEY='
 # TWITTER_CONSUMER_SECRET='
-# FRONTEND_URL=''
-# APP_SCHEME='' 
+FRONTEND_URL='www.google.com'
+APP_SCHEME='incomeexpenseapi'
+
 
 
 # Internationalization
